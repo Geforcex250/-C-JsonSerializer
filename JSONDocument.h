@@ -1,5 +1,6 @@
 //
-// Created by diacon_c on 23/01/16.
+// Created by Christian Diaconu on 23/01/16.
+// christian.diaconu@epitech.eu
 //
 
 #ifndef C_JSONSERIALIZER_JSONDOCUMENT_H
@@ -12,7 +13,7 @@
 class JSONDocument {
 private:
     std::map<std::string, std::string> simple_values;
-    std::map<std::string, std::vector<JSONDocument *>> array_values;
+    std::map<std::string, std::vector<JSONDocument *> > array_values;
     std::map<std::string, JSONDocument *> object_values;
     std::string *buffer;
 

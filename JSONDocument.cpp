@@ -1,5 +1,6 @@
 //
-// Created by diacon_c on 23/01/16.
+// Created by Christian Diaconu on 23/01/16.
+// christian.diaconu@epitech.eu
 //
 
 #include <iostream>
@@ -55,8 +56,9 @@ void JSONDocument::bufferGenerator_Values() {
 
         // Compose element in JSON !
         this->buffer->append("\"" + iterator->first + "\":\"" + iterator->second + "\"");
-        // Add semi-colomuns when needed
-        if (i++ != (this->simple_values.size() - 1) || this->object_values.size() != 0)
+
+        // Add simple-colomuns when needed && checking if there is other to selerialize afterwards.
+        if (i++ != (this->simple_values.size() - 1) || (this->object_values.size() != 0 || this->array_values.size() != 0))
             buffer->append(",");
 
     }
@@ -71,7 +73,7 @@ void JSONDocument::bufferGenerator_Objects() {
 
         // Compose element in JSON !
         this->buffer->append("\"" + iterator->first + "\":" + (iterator->second->serialize()));
-        // Add semi-colomuns when needed
+        // Add simple-colomuns when needed && checking if there is other to selerialize afterwards.
         if (i++ != (this->object_values.size() - 1) || this->array_values.size() != 0)
             buffer->append(",");
     }
@@ -83,7 +85,7 @@ void JSONDocument::bufferGenerator_Arrays() {
     unsigned long int i2 = 0;
 
     // Lets save arrays values !
-    typedef std::map<std::string, std::vector<JSONDocument *>>::iterator array_IT;
+    typedef std::map<std::string, std::vector<JSONDocument *> >::iterator array_IT;
     for(array_IT iterator = this->array_values.begin(); iterator != this->array_values.end(); iterator++) {
 
         this->buffer->append("\"" + iterator->first + "\":[");
@@ -91,14 +93,14 @@ void JSONDocument::bufferGenerator_Arrays() {
         {
             this->buffer->append(iterator->second.at(i2)->serialize());
 
-            // Add semi-colomuns when needed
+            // Add simple-colomuns when needed
             if (i2++ != (iterator->second.size() - 1))
                 buffer->append(",");
         }
         this->buffer->append("]");
 
-        // Add semi-colomuns when needed
-        if (i++ != (this->object_values.size() - 1))
+        // Add simple-colomuns when needed
+        if (i++ != (this->array_values.size() - 1))
             buffer->append(",");
     }
 }
